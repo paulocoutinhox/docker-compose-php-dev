@@ -30,6 +30,7 @@
 - MySql Latest
 - Nginx Latest
 - PHP FPM
+- SSL/HTTPS
 
 PHP Extensions:
    - xdebug
@@ -41,3 +42,10 @@ PHP Extensions:
    - pdo_mysql
    - curl
    - iconv
+
+### SSL ###
+
+If you want create another SSL certificate, you the following command:  
+
+> openssl req -x509 -nodes -newkey rsa:2048 -keyout nginx/ssl/new-nginx.key -out nginx/ssl/new-nginx.crt  
+

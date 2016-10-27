@@ -4,6 +4,9 @@ server {
 
     server_name  localhost;
 
+	ssl_certificate /etc/nginx/ssl/nginx.crt;
+    ssl_certificate_key /etc/nginx/ssl/nginx.key;
+
     charset UTF-8;
 
 	set $bootstrap "index.php";
