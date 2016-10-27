@@ -18,6 +18,26 @@
 
 **Extras:**
 
-To work more easy with this tool, you can pass your **www** dir when call docker-compose, like this:
+1: To work more easy with this tool, you can pass your **www** dir when call docker-compose, like this:
 
 > DC_PHP_ENV_WWW_DIR=./www docker-compose up
+
+2: The default MySql user and password is **root/root**
+
+### What is included? ###
+
+- PHP 7.0.12
+- MySql Latest
+- Nginx Latest
+- PHP FPM
+
+PHP Extensions:
+   - xdebug
+   - memcached
+   - gd
+   - mcrypt
+   - intl
+   - pdo
+   - pdo_mysql
+   - curl
+   - iconv
