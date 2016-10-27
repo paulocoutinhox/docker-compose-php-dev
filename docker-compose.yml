@@ -1,0 +1,41 @@
+version: '2'
+services:
+  # web server
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      # app
+      - ./app/src:/usr/share/nginx/html
+      # nginx configs
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/conf.d/:/etc/nginx/conf.d/:ro
+
+  # php-fpm
+  php-fpm:
+    build: ./php-fpm
+    ports:
+      - "9000"
+    volumes:
+      - ~/Developer/www:/usr/share/nginx/html
+      - ./php-fpm/php.ini:/usr/local/etc/php/php.ini:ro
+    # environment:
+      # Set your APP env variables here if you want:
+      # - APP_KEY=
+      # - DB_HOST=
+      # - DB_DATABASE=
+      # - DB_USERNAME=
+      # - DB_PASSWORD=
+
+  # database
+  mysql:
+    image: mysql:latest
+    ports:
+      - "3306:3306"
+    volumes:
+      # NOTE: your data will be stored in ./mysql, but will be ignored to Git
+      - ./mysql:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
