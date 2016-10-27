@@ -7,6 +7,7 @@
 > nano ~/.bash_profile  
 > export DC_PHP_ENV_WWW_DIR=./www   
 
-2. Up docker compose
+2. Build and start docker compose
 
+> docker-compose build
 > docker-compose up  
