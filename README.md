@@ -9,5 +9,5 @@
 
 2. Build and start docker compose
 
-> docker-compose build
+> docker-compose build  
 > docker-compose up  
