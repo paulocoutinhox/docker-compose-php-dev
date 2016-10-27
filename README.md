@@ -11,7 +11,13 @@
 
 > cp nginx/conf.d/sample.conf.txt nginx/conf.d/localhost.conf  
 
-**Step 3:**. Build and start docker compose  
+**Step 3:** Build and start docker compose  
 
 > docker-compose build  
 > docker-compose up  
+
+**Extras:**
+
+To work more easy with this tool, you can pass your **www** dir when call docker-compose, like this:
+
+> DC_PHP_ENV_WWW_DIR=./www docker-compose up
