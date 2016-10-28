@@ -28,6 +28,7 @@ RUN apt-get install -y libcurl3-dev
 RUN apt-get install -y zlib1g-dev
 RUN apt-get install -y libicu-dev
 RUN apt-get install -y libmemcached-dev 
+RUN apt-get install -y mysql-client
 
 # install memcache manually because dont have packages for PHP7
 RUN curl -L -o /tmp/memcached.tar.gz "https://github.com/php-memcached-dev/php-memcached/archive/php7.tar.gz" 
@@ -39,11 +40,14 @@ RUN rm /tmp/memcached.tar.gz
 
 # install, configure and enable all php packages
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
+RUN docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd
+RUN docker-php-ext-configure mysqli --with-mysqli=mysqlnd
 
+RUN docker-php-ext-install -j$(nproc) pdo_mysql
+RUN docker-php-ext-install -j$(nproc) mysqli
+RUN docker-php-ext-install -j$(nproc) pdo
 RUN docker-php-ext-install -j$(nproc) gd
 RUN docker-php-ext-install -j$(nproc) intl
-RUN docker-php-ext-install -j$(nproc) pdo
-RUN docker-php-ext-install -j$(nproc) pdo_mysql
 RUN docker-php-ext-install -j$(nproc) curl
 RUN docker-php-ext-install -j$(nproc) iconv
 RUN docker-php-ext-install -j$(nproc) mcrypt
