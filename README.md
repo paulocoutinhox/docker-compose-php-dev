@@ -24,6 +24,26 @@
 
 2: The default MySql user and password is **root/root**
 
+### How to execute the PHP-CLI from command line ###
+
+1: Get the docker container ID or container name:
+
+> docker ps
+
+2: Search for something like the service name of PHP-FPM. On my machine i got:
+
+> dockercomposephpdev_php-fpm_1
+
+3: Execute the following command to run PHP with the volumes exported to it:
+
+> docker exec -it **dockercomposephpdev_php-fpm_1** bash -c "php \$WWW_DIR/index.php"
+
+Obs:
+- Remember that the files visible by PHP is only the files exported by the volume when you executed the docker-compose. In our case, all files inside the path "WWW_DIR".
+- To help your life, i have created an environment variable inside container with the same name **WWW_DIR** that points to the path of files inside container. Because this we made reference of it when execute the **bash** command. 
+
+
+
 ### What is included? ###
 
 - PHP 7.0.12
