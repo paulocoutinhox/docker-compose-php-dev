@@ -14,8 +14,8 @@ services:
       - ./nginx/conf.d/:/etc/nginx/conf.d/:ro
       # nginx SSL
       - ./nginx/ssl/:/etc/nginx/ssl/:ro
-	environment: 
-	  -	WWW_DIR=/usr/share/nginx/html
+    environment: 
+      -	WWW_DIR=/usr/share/nginx/html
 
   # php-fpm
   php-fpm:
