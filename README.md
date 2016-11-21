@@ -2,10 +2,10 @@
 
 ### How to use ###
 
-**Step 1:** Create environment variable called *DC_PHP_ENV_WWW_DIR** with your **web application dir**. An example to use our defaul **www** dir:
+**Step 1:** Create environment variable called *WWW_DIR** with your **web application dir**. An example to use our defaul **www** dir:
 
 > nano ~/.bash_profile  
-> export DC_PHP_ENV_WWW_DIR=./www   
+> export WWW_DIR=./www   
 
 **Step 2:** Create a **nginx** configuration file inside **"nginx/conf.d"**. Example with our sample file:  
 
@@ -20,7 +20,7 @@
 
 1: To work more easy with this tool, you can pass your **www** dir when call docker-compose, like this:
 
-> DC_PHP_ENV_WWW_DIR=./www docker-compose up
+> WWW_DIR=./www docker-compose up
 
 2: The default MySql user and password is **root/root**
 

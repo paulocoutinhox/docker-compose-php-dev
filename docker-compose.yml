@@ -8,12 +8,14 @@ services:
       - "443:443"
     volumes:
       # app
-      - ${DC_PHP_ENV_WWW_DIR}:/usr/share/nginx/html
+      - ${WWW_DIR}:/usr/share/nginx/html
       # nginx configs
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/conf.d/:/etc/nginx/conf.d/:ro
       # nginx SSL
       - ./nginx/ssl/:/etc/nginx/ssl/:ro
+	environment: 
+	  -	WWW_DIR=/usr/share/nginx/html
 
   # php-fpm
   php-fpm:
@@ -21,7 +23,7 @@ services:
     ports:
       - "9000"
     volumes:
-      - ${DC_PHP_ENV_WWW_DIR}:/usr/share/nginx/html
+      - ${WWW_DIR}:/usr/share/nginx/html
       - ./php-fpm/php.ini:/usr/local/etc/php/php.ini:ro
     # environment:
       # Set your APP env variables here if you want:
