@@ -14,17 +14,18 @@ services:
       - ./nginx/conf.d/:/etc/nginx/conf.d/:ro
       # nginx SSL
       - ./nginx/ssl/:/etc/nginx/ssl/:ro
-    environment: 
-      - WWW_DIR=/usr/share/nginx/html
 
   # php-fpm
   php-fpm:
     build: ./php-fpm
+    working_dir: /usr/share/nginx/html
     ports:
       - "9000"
     volumes:
       - ${WWW_DIR}:/usr/share/nginx/html
       - ./php-fpm/php.ini:/usr/local/etc/php/php.ini:ro
+    environment: 
+      - WWW_DIR=/usr/share/nginx/html
     # environment:
       # Set your APP env variables here if you want:
       # - APP_KEY=
