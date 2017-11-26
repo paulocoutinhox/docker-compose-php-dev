@@ -2,7 +2,7 @@
 # See: https://hub.docker.com/_/php/
 ######
 
-FROM php:7.0.12-fpm
+FROM php:7.1.11-fpm
 MAINTAINER Paulo Coutinho <paulo@prsolucoes.com>
 
 ######
@@ -29,19 +29,30 @@ RUN apt-get install -y zlib1g-dev
 RUN apt-get install -y libicu-dev
 RUN apt-get install -y libmemcached-dev 
 RUN apt-get install -y mysql-client
+RUN apt-get install -y libmagickwand-dev
+RUN apt-get install -y unzip
 
-# install memcache manually because dont have packages for PHP7
-RUN curl -L -o /tmp/memcached.tar.gz "https://github.com/php-memcached-dev/php-memcached/archive/php7.tar.gz" 
-RUN mkdir -p /usr/src/php/ext/memcached
-RUN tar -C /usr/src/php/ext/memcached -zxvf /tmp/memcached.tar.gz --strip 1
-RUN docker-php-ext-configure memcached
-RUN docker-php-ext-install memcached
-RUN rm /tmp/memcached.tar.gz
+# memcached
+RUN pecl install memcached-3.0.4
+RUN docker-php-ext-enable memcached
+
+# memcache
+RUN cd /tmp \
+    && curl -sSL -o memcache-php7.zip https://github.com/websupport-sk/pecl-memcache/archive/php7.zip \
+    && unzip memcache-php7 \
+    && cd pecl-memcache-php7 \
+    && /usr/local/bin/phpize \
+    && ./configure --with-php-config=/usr/local/bin/php-config \
+    && make \
+    && make install \
+    && echo "extension=memcache.so" > /usr/local/etc/php/conf.d/ext-memcache.ini \
+    && rm -rf /tmp/pecl-memcache-php7 memcache-php7.zip
 
 # install, configure and enable all php packages
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
 RUN docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd
 RUN docker-php-ext-configure mysqli --with-mysqli=mysqlnd
+RUN docker-php-ext-configure intl
 
 RUN docker-php-ext-install -j$(nproc) pdo_mysql
 RUN docker-php-ext-install -j$(nproc) mysqli
@@ -52,5 +63,18 @@ RUN docker-php-ext-install -j$(nproc) curl
 RUN docker-php-ext-install -j$(nproc) iconv
 RUN docker-php-ext-install -j$(nproc) mcrypt
 
+# install xdebug
 RUN pecl install xdebug
 RUN docker-php-ext-enable xdebug
+
+# install imagick
+RUN pecl install imagick
+RUN docker-php-ext-enable imagick
+
+# install composer
+RUN cd /tmp \
+    && curl -sS https://getcomposer.org/installer | php \
+    && mv composer.phar /usr/local/bin/composer
+
+# clean image
+RUN apt-get clean
